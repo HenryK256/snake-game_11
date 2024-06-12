@@ -44,9 +44,12 @@ class Apple:
 
         self.coordinates = [x, y]
 
-        while self.coordinates in listOfSnakeTakingUpTheseSquares:
-            y = random.randint(0, (window_height / size) - 1) * size
-            x = random.randint(0, (window_width/size)-1) * size
+        #while self.coordinates in listOfSnakeTakingUpTheseSquares:
+        #    y = random.randint(0, (window_height / size) - 1) * size
+        #    x = random.randint(0, (window_width/size)-1) * size
+        
+        if self.coordinates in listOfSnakeTakingUpTheseSquares:
+            window.after(10, Apple())
 
         canvas.create_rectangle(x, y, x + size, y + size, fill=apple_color, tag="food")
 
