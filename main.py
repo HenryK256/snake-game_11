@@ -1,6 +1,9 @@
+import time
 from tkinter import *
 import random
 import math
+import os
+import sys
 
 snake_color = "#50C878"
 apple_color = "#FF0000"
@@ -95,7 +98,8 @@ def turn(snake, food):
 
         canvas.delete("food")
         food = Apple()
-        distances.append('%.3f'%(math.sqrt(math.pow((food.coordinates[0] - x),2) + math.pow((food.coordinates[1] - y),2)) / size))
+        distance = '%.3f'%(math.sqrt(math.pow((food.coordinates[0] - x),2) + math.pow((food.coordinates[1] - y),2)) / size)
+        distances.append([distance, len(snake.squares)])
 
 
     else:
@@ -126,9 +130,10 @@ def end_game():
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, font=('arial', 35), text="You Lose!", fill="orange")
     print(distances)
-    exit(1)
+    window.after(2000, restart())
 
-
+def restart():
+    os.execl(sys.executable, sys.executable, *sys.argv)
 
 window = Tk()
 window.title("Python Snake Game!")
