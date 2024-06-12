@@ -1,5 +1,6 @@
 from tkinter import *
 import random
+import math
 
 snake_color = "#50C878"
 apple_color = "#FF0000"
@@ -8,9 +9,11 @@ background_color = "#000000"
 window_width = 700
 window_height = 700
 
-speed = 50
+speed = 80
 size = 50
 snake_size = 2
+
+distances = []
 
 class Snake:
     def __init__(self):
@@ -31,7 +34,16 @@ class Apple:
         y = random.randint(0, (window_height / size) - 1) * size
         x = random.randint(0, (window_width/size)-1) * size
 
+        listOfSnakeTakingUpTheseSquares = []
+
+        for i in snake.coordinates:
+            listOfSnakeTakingUpTheseSquares.append([i[0],i[1]])
+
         self.coordinates = [x, y]
+
+        while self.coordinates in listOfSnakeTakingUpTheseSquares:
+            y = random.randint(0, (window_height / size) - 1) * size
+            x = random.randint(0, (window_width/size)-1) * size
 
         canvas.create_rectangle(x, y, x + size, y + size, fill=apple_color, tag="food")
 
@@ -83,6 +95,7 @@ def turn(snake, food):
 
         canvas.delete("food")
         food = Apple()
+        distances.append('%.3f'%(math.sqrt(math.pow((food.coordinates[0] - x),2) + math.pow((food.coordinates[1] - y),2)) / size))
 
 
     else:
@@ -112,6 +125,8 @@ def crash(snake):
 def end_game():
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, font=('arial', 35), text="You Lose!", fill="orange")
+    print(distances)
+    exit(1)
 
 
 
